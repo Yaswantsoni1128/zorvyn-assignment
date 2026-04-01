@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "backend-assignment-zorvyn",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is zorvyn assignment for backend intern",
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -20,6 +20,10 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.0.0",
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "cookie-parser": "^1.4.7",
+    "zod": "^4.1.13"
   }
 }
