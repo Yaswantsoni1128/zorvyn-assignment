@@ -59,13 +59,20 @@ export const recordController = {
   }),
 
   getAll: asyncHandler(async (req, res) => {
-    let { type, category, startDate, endDate, page = 1, limit = 10 } = req.query;
+    let {
+      type,
+      category,
+      startDate,
+      endDate,
+      page = 1,
+      limit = 10,
+      sortBy = "date",
+      order = "desc",
+      search,
+    } = req.query;
 
     page = Number(page);
-    limit = Number(limit);
-
-    // safety limit
-    limit = Math.min(limit, 50);
+    limit = Math.min(Number(limit), 50);
 
     const filter = {
       userId: req.user._id,
@@ -74,7 +81,6 @@ export const recordController = {
 
     if (type) filter.type = type;
 
-    // category filter (name OR id)
     if (category) {
       if (mongoose.isValidObjectId(category)) {
         filter.categoryId = category;
@@ -83,23 +89,37 @@ export const recordController = {
           name: category.toLowerCase(),
           userId: req.user._id,
         });
-        const ids = cats.map((c) => c._id);
-        filter.categoryId = { $in: ids };
+        filter.categoryId = { $in: cats.map((c) => c._id) };
       }
     }
 
-    // date filter
+    if (search) {
+      const cats = await Category.find({
+        name: { $regex: search, $options: "i" },
+        userId: req.user._id,
+      });
+
+      filter.$or = [
+        { note: { $regex: search, $options: "i" } },
+        { categoryId: { $in: cats.map((c) => c._id) } },
+      ];
+    }
+
     if (startDate || endDate) {
       filter.date = {};
       if (startDate) filter.date.$gte = new Date(startDate);
       if (endDate) filter.date.$lte = new Date(endDate);
     }
 
+    const allowedSortFields = ["date", "amount", "createdAt"];
+    const sortField = allowedSortFields.includes(sortBy) ? sortBy : "date";
+    const sortOrder = order === "asc" ? 1 : -1;
+
     const skip = (page - 1) * limit;
 
     const [records, total] = await Promise.all([
       Record.find(filter)
-        .sort({ date: -1 })
+        .sort({ [sortField]: sortOrder })
         .skip(skip)
         .limit(limit)
         .populate("categoryId", "name type"),
