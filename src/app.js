@@ -17,7 +17,11 @@ app.use(cookieParser());
 
 // Routes
 import authRoutes from "../src/routes/auth.route.js"
+import recordRoutes from "../src/routes/record.routes.js";
+import categoryRoutes from "../src/routes/category.routes.js";
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/records", recordRoutes);
+app.use("/api/v1/categories", categoryRoutes)
 
 export default app;
