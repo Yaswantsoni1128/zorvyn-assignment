@@ -59,7 +59,13 @@ export const recordController = {
   }),
 
   getAll: asyncHandler(async (req, res) => {
-    const { type, category, startDate, endDate } = req.query;
+    let { type, category, startDate, endDate, page = 1, limit = 10 } = req.query;
+
+    page = Number(page);
+    limit = Number(limit);
+
+    // safety limit
+    limit = Math.min(limit, 50);
 
     const filter = {
       userId: req.user._id,
@@ -68,7 +74,7 @@ export const recordController = {
 
     if (type) filter.type = type;
 
-    // category may be a name or an id
+    // category filter (name OR id)
     if (category) {
       if (mongoose.isValidObjectId(category)) {
         filter.categoryId = category;
@@ -82,17 +88,31 @@ export const recordController = {
       }
     }
 
+    // date filter
     if (startDate || endDate) {
       filter.date = {};
       if (startDate) filter.date.$gte = new Date(startDate);
       if (endDate) filter.date.$lte = new Date(endDate);
     }
 
-    const records = await Record.find(filter)
-      .sort({ date: -1 })
-      .populate("categoryId", "name type");
+    const skip = (page - 1) * limit;
 
-    res.json({ records });
+    const [records, total] = await Promise.all([
+      Record.find(filter)
+        .sort({ date: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("categoryId", "name type"),
+      Record.countDocuments(filter),
+    ]);
+
+    res.json({
+      page,
+      limit,
+      totalRecords: total,
+      totalPages: Math.ceil(total / limit),
+      records,
+    });
   }),
 
   getOne: asyncHandler(async (req, res) => {
