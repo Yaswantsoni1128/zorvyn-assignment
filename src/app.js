@@ -19,9 +19,11 @@ app.use(cookieParser());
 import authRoutes from "../src/routes/auth.route.js"
 import recordRoutes from "../src/routes/record.routes.js";
 import categoryRoutes from "../src/routes/category.routes.js";
+import dashboardRoutes from "../src/routes/dashboard.routes.js";
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/records", recordRoutes);
 app.use("/api/v1/categories", categoryRoutes)
+app.use("/api/v1/dashboard", dashboardRoutes);
 
 export default app;
