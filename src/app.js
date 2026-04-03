@@ -27,6 +27,11 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+// health route
+app.get("/", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date() });
+});
+
 // Routes
 import authRoutes from "../src/routes/auth.route.js"
 import recordRoutes from "../src/routes/record.routes.js";
