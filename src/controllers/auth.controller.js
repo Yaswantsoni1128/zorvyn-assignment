@@ -12,7 +12,7 @@ const generateToken = (user) => {
 
 export const authController = {
   register: asyncHandler(async (req, res) => {
-    console.log("Registering user:", req.body);
+    
     if (!req.body || Object.keys(req.body).length === 0) {
       return res.status(400).json({ message: "Request body is missing or invalid. Send JSON with Content-Type: application/json" });
     }
