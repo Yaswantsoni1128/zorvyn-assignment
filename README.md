@@ -35,7 +35,6 @@ src/
 ├── routes/
 ├── middlewares/
 ├── utils/
-├── services/
 ├── db/
 ├── app.js
 └── server.js
