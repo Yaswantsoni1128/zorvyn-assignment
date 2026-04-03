@@ -4,6 +4,8 @@ A well-structured backend system for a finance dashboard that demonstrates real-
 
 ---
 
+## Live Api URL: https://zorvyn-assignment-lngh.onrender.com
+
 ## 🚀 Features
 
 - JWT Authentication  
