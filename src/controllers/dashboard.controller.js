@@ -1,5 +1,5 @@
 import Record from "../models/record.model.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { asyncHandler } from "../utils/AsyncHandler.js";
 
 export const dashboardController = {
   getSummary: asyncHandler(async (req, res) => {

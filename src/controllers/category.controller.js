@@ -1,5 +1,5 @@
 import Category from "../models/category.model.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { asyncHandler } from "../utils/AsyncHandler.js";
 
 export const categoryController = {
   create: asyncHandler(async (req, res) => {

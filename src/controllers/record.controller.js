@@ -1,6 +1,6 @@
 import Record from "../models/record.model.js";
 import Category from "../models/category.model.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+import { asyncHandler } from "../utils/AsyncHandler.js";
 import mongoose from "mongoose";
 
 export const recordController = {
