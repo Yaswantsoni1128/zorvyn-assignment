@@ -64,7 +64,7 @@ npm run dev
 
 Server runs on:  
 👉 http://localhost:8000
-
+You can verify the server is running by visiting the health endpoint: `GET /` (returns JSON with status and timestamp).
 ---
 
 ## 🔐 Authentication
